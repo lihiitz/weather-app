@@ -16,6 +16,6 @@ app.use(`/`, api)
 
 const PORT = 3000
 app.listen(process.env.PORT || PORT, function(){
-    console.log(`running on port ${port}`);
+    console.log(`running on port ${PORT}`);
     
 })
