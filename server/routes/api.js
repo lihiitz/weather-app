@@ -8,23 +8,28 @@ const APIKey = "adff5ce17061cd99b676972798efc372"
 router.get(`/city/:cityName`, async function(req, res){
     const city = req.params.cityName
     let data = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${APIKey}`)
-    res.send(data.data)
+    let final = {
+        name: city,
+        temperature: data.data.main.temp,
+        condition: data.data.weather[0].description,
+        conditionPic: `http://openweathermap.org/img/wn/${data.data.weather[0].icon}@2x.png`,
+    }
+    res.send(final)
 })
-router.get(`/cities`, async function(req, res){
+router.get(`/cities`, async function(req, res){ //return all cities that in DB
     let cities = await City.find({})
     res.send(cities)
 })
 router.post(`/city`, async function(req, res){
-    const city = req.body.city
-    let data = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${APIKey}`)
+    const city = req.body
     const newCity = new City({
-        name: city,
-        temperature: data.data.main.temp,
-        condition: data.data.weather[0].description,
-        conditionPic: `http://openweathermap.org/img/wn/${data.data.weather[0].icon}@2x.png`
+        name: city.name,
+        temperature: city.temperature,
+        condition: city.condition,
+        conditionPic: city.conditionPic,
     })
-    newCity.save()
-    res.send(data.data)
+    await newCity.save()
+    res.send(newCity)
 })
 router.delete(`/city/:cityName`, async function(req, res){
     const city = req.params.cityName

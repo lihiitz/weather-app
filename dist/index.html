@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./handlebars/dist/handlebars.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="header">
+        <input placeholder="City">
+        <button id="search">Search</button>
+    </div>
+    <div id="container">
+    </div>
+        <script id="container-template" type="text/x-handlebars-template">
+            {{#each city}}
+                <div data-id={{name}} class="item">
+                    <div class="arb">
+                        {{#if _id}}
+                            <div class="minus">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>                        
+                        {{else}}
+                            <div class="plus">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="temp">{{temperature}} &#8451</div>
+                    <div class="name">{{name}}</div> 
+                    <div class="cond">{{condition}}</div>
+                    <img class="pic" src= {{conditionPic}}>
+                </div>
+            {{/each}}
+        </script>
+    <script src="data.js"></script>
+    <script src="render.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
