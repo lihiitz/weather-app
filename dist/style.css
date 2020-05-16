@@ -27,7 +27,11 @@ body{
     border-bottom: ridge;
     grid-template-areas: 
     "a t t p p p"
-    "a n n c c c";
+    "r n n c c c";
+}
+.refresh{
+    display: grid;
+    grid-area: r;  
 }
 .arb{
     display: grid;
