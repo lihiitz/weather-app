@@ -1,16 +1,21 @@
 const render = new Render()
 const data = new Data()
 
-// const loadPage = async function(){ //load all saved cities
-//     const city = await navigator.geolocation.getCurrentPosition(data.getCityByCoords)
-//     console.log(city);
-// }
+const myExecutorFunc = function(resolutionFunc, rejectionFunc){
+    navigator.geolocation.getCurrentPosition(async function(pos){
+        let res = await data.getCityByCoords(pos)
+        resolutionFunc(res)
+    })
+}
 
-const loadPage = async function(){ //load all saved cities
+const currentLocation = async function(){ //load current location
+    const cityPromise = await new Promise(myExecutorFunc)
+    render.renderData(cityPromise)
+}
+const favorites = async function(){
     const cities = await data.getDataFromDB()
     render.renderData(cities)
 }
-
 const handleSearch = async function(city){
     const cities = await data.getCityData(city) 
     render.renderData(cities)
@@ -36,4 +41,4 @@ $(`#container`).on(`click`, `.refresh`, async function(){
     render.renderData(cities)
 })
 
-loadPage() 
+currentLocation() 

@@ -3,16 +3,16 @@ class Data {
         this.cityData = []
 
     }
-    async getCityByCoords(pos) {
-        const crd = pos.coords
-        const data = await $.get(`/city/${crd.latitude}/${crd.longitude}`)
-        console.log(data);
-        
-        return data
-    }
     async getDataFromDB() {
         const data = await $.get(`/cities`)        
         this.cityData = data
+        return this.cityData
+    }
+    async getCityByCoords(pos) {
+        const crd = pos.coords
+        const data = await $.get(`/city/${crd.latitude}/${crd.longitude}`)
+        this.cityData = []
+        this.cityData.push(data)
         return this.cityData
     }
     //get one city from API, add it to cityData array and return the array
@@ -26,7 +26,7 @@ class Data {
             }
             this.cityData.splice(index, 1)
         }
-        this.cityData.splice(index, 0, data)
+        this.cityData.unshift(data)
         return this.cityData
     }
     async saveCity(cityName) {
